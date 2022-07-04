@@ -1,8 +1,20 @@
 import express from 'express';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
+import prisma from '../prisma/prismaClient';
 
 const app = express();
-app.use(morgan('dev')); // logger
+
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// connect the to the db
+const startDB = async () => {
+  await prisma.$connect();
+};
+startDB();
 
 app.get('/', async (req, res) => {
   res.json({ hello: 'world' });
