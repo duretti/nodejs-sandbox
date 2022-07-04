@@ -22,7 +22,7 @@ const connectDB = async () => {
         setTimeout(prisma.$connect, 2000);
       }
     })
-    .then(() => console.log('\n🐘 Successfully connected to DB!'));
+    .then(() => console.log('🐘 Successfully connected to DB!'));
 };
 connectDB();
 
@@ -34,5 +34,5 @@ const port = Number(process.env.PORT ?? 8000);
 
 // we need to run the app on 0.0.0.0 for docker
 app.listen(port, '0.0.0.0', () => {
-  console.log(`\n🚀 Server running at http://localhost:${port}`);
+  console.log(`🚀 Server running at http://localhost:${port}`);
 });

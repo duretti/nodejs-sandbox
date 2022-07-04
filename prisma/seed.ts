@@ -28,9 +28,6 @@ main()
     console.error('ERROR: Seed script failed with:', e);
     process.exit(1);
   })
-  .then(() =>
-    console.log(`\n🌱 The creation of a thousand forests is in one seed\n`),
-  )
   .finally(async () => {
     await prisma.$disconnect();
   });
