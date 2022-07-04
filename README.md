@@ -17,7 +17,7 @@ make sure you have the following installed:
 make sure you create a new `.env` file (just copy over whats in `.env.example`)
 
 ```
-yarn start:docker
+yarn rebuild:be
 ```
 
 ### testing
@@ -31,5 +31,5 @@ no need to restart your container to pick up changes, the task handler should ha
 ## tearing down your env
 
 ```
-docker compose down
+yarn stop:docker
 ```

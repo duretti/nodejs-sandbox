@@ -10,22 +10,23 @@
   "scripts": {
     "build": "rimraf dist && swc ./src -d dist",
     "start": "node dist/index.js",
-    "start:docker": "yarn build && yarn prisma migrate dev && node --inspect=0.0.0.0 dist/index.js",
-    "restart:docker": "yarn build && node --inspect=0.0.0.0 dist/index.js",
+    "start:docker": "yarn build && yarn prisma migrate dev && yarn db:seed && node --inspect=0.0.0.0 dist/index.js",
+    "stop:docker": "docker-compose rm --stop backend postgres && docker volume rm nodejs-sandbox_node_modules && docker rmi nodejs-sandbox_backend",
+    "rebuild:be": "docker compose build backend && docker compose rm --stop backend && docker compose up -d backend",
     "db:console": "docker compose exec postgres psql -h localhost -U postgres -d dev",
-    "db:seed": "ts-node prisma/seed.ts",
+    "db:seed": "yarn prisma db seed",
     "db:migrate": "yarn prisma migrate dev",
     "db:reset": "yarn prisma migrate reset",
     "docker:db:migrate": "docker compose run backend yarn db:migrate",
     "docker:db:reset": "docker compose run backend yarn db:reset",
-    "docker:db:seed": "docker compose run backend yarn db:seed",
-    "rebuild:be": "docker compose build backend && docker compose rm --stop backend && docker compose up -d backend"
+    "docker:db:seed": "docker compose run backend yarn db:seed"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^4.0.0",
+    "cookie-parser": "^1.4.6",
     "express": "^4.18.1",
     "morgan": "^1.10.0",
     "nanoid": "3.3.4",
