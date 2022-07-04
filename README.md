@@ -7,6 +7,7 @@ make sure you have the following installed:
 - node v18
 - yarn v1
 - vscode
+- postgres
 
 ## spinning up your env
 make sure you create a new `.env` file (just copy over whats in `.env.example`)
