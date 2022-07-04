@@ -1,0 +1,37 @@
+services:
+  backend:
+    build: .
+    ports:
+      - 8000:8000
+      - 9229:9229 # debugger port (for vscode <> docker)
+    volumes:
+      - .:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+    command: yarn start:docker
+    environment:
+      PORT: 8000
+      DATABASE_URL: postgresql://postgres:admin@host.docker.internal/dev
+    depends_on:
+      postgres:
+        condition: service_healthy # only start up backend once postgres is good
+
+  postgres:
+    image: postgres:14-alpine
+    restart: always
+    ports:
+      - 5432:5432 # enables connecting locally via psql
+    environment:
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  node_modules:
+  pgdata:
